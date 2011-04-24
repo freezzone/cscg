@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="windows-1250"?>
+
+<!--
+    Description:
+        Definice položek menu pro přidání nového objektu do projektu.
+-->
+
+<menu>
+	<submenu title="Přidat křivku">
+		<object class="cscg.model.objects.impl.ObjectInterpolation" title="Interpolace polynomem" />
+		<object class="cscg.model.objects.impl.ObjectHermit" title="Hermitova interpolace" />
+		<object class="cscg.model.objects.impl.ObjectLeastSquares" title="Aproximace metodou nejmenších čtverců" />
+		<separator />
+		<object class="cscg.model.objects.impl.ObjectFerguson" title="Fergusonova křivka" />
+		<object class="cscg.model.objects.impl.ObjectBezier" title="Bézierova křivka" />
+		<object class="cscg.model.objects.impl.ObjectCoonsBSpline" title="Coonsův B-spline" />
+		<object class="cscg.model.objects.impl.ObjectNURBS" title="NURBS křivka" />
+	</submenu>
+	<submenu title="Přidat plochu">
+		<object class="cscg.model.objects.impl.ObjectBezierSurface" title="Bézierova plocha" />
+		<object class="cscg.model.objects.impl.ObjectCoonsBSplineSurface" title="Coonsova plocha" />
+		<object class="cscg.model.objects.impl.ObjectNURBSSurface" title="NURBS plocha" />
+	</submenu>
+</menu>
