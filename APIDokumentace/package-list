@@ -1,0 +1,7 @@
+cscg
+cscg.controller
+cscg.model
+cscg.model.objects
+cscg.model.objects.impl
+cscg.ui
+cscg.ui.components
