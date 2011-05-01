@@ -401,6 +401,18 @@ public class ObjectNURBSSurface
 						sumy2+=sumy2in;
 						sumz2+=sumz2in;
 					}
+					if(sumx2==0f)
+					{
+						sumx2+=Double.MIN_VALUE;
+					}
+					if(sumy2==0f)
+					{
+						sumy2+=Double.MIN_VALUE;
+					}
+					if(sumz2==0f)
+					{
+						sumz2+=Double.MIN_VALUE;
+					}
 					surface.add(new Point3f((float)(sumx1/sumx2), (float)(sumy1/sumy2), (float)(sumz1/sumz2)));
 				}
 			}

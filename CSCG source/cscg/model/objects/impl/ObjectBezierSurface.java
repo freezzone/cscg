@@ -237,7 +237,7 @@ public class ObjectBezierSurface extends AbstractObjectSurface<Point3fChangeable
 						break;
 
 					case 1:
-						newJoining=Joining.C1;
+						newJoining=Joining.G1;
 						break;
 
 				}
@@ -742,7 +742,7 @@ public class ObjectBezierSurface extends AbstractObjectSurface<Point3fChangeable
 					continue;
 				}
 				//u C1 napojování musí být prostřední bod přesně ve středu
-				else if(getJoining()==Joining.C1)
+				else if(getJoining()==Joining.G1)
 				{
 					middle.setX(pivot.getX());
 					middle.setY(pivot.getY());
