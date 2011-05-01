@@ -9,9 +9,9 @@
 	<submenu title="Přidat křivku">
 		<object class="cscg.model.objects.impl.ObjectInterpolation" title="Interpolace polynomem" />
 		<object class="cscg.model.objects.impl.ObjectHermit" title="Hermitova interpolace" />
-		<object class="cscg.model.objects.impl.ObjectLeastSquares" title="Aproximace metodou nejmenšíchch čtverců" />
-		<separator />
 		<object class="cscg.model.objects.impl.ObjectFerguson" title="Fergusonova křivka" />
+		<separator />
+		<object class="cscg.model.objects.impl.ObjectLeastSquares" title="Aproximace metodou nejmenšíchch čtverců" />
 		<object class="cscg.model.objects.impl.ObjectBezier" title="Bézierova křivka" />
 		<object class="cscg.model.objects.impl.ObjectCoonsBSpline" title="Coonsův B-spline" />
 		<object class="cscg.model.objects.impl.ObjectNURBS" title="NURBS křivka" />
