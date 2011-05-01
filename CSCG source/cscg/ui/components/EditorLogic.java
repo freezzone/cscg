@@ -14,6 +14,8 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.nio.IntBuffer;
@@ -559,32 +561,38 @@ public class EditorLogic implements GLEventListener, FocusListener
 		//vygenerování obrázku scény
 		if (threadWaitingForImage != null)
 		{
+			//označení [0;0] bodu jinou barvou pixelu
+			gl.glRasterPos2i(0, 0);
+			IntBuffer markPixel = IntBuffer.allocate(1);
+			int pixel = 0xff000001;
+			markPixel.put(pixel);
+			markPixel.rewind();
+			gl.glDrawPixels(
+			  1, 1,
+			  gl.GL_BGRA,
+			  gl.GL_UNSIGNED_BYTE,
+			  markPixel);
+
+			//čtení obrazu
 			IntBuffer buffer = IntBuffer.allocate(widthGL * heightGL);
 			System.out.println(buffer.limit() + " " + (widthGL * heightGL));
 			gl.glReadPixels(0, 0, widthGL, heightGL, GL2.GL_BGRA, GL2.GL_UNSIGNED_BYTE, buffer);
 			int[] bufferRGBA;
-			bufferRGBA = buffer.array();//na windows funguje, na linuxu je obrázek převrácený
+			bufferRGBA = buffer.array();
 
-			//pro linux - v bufferu je obrázek pozpátku, musí se otočit
-			try
-			{
-				if (System.getProperty("os.name").toLowerCase().indexOf("nux") >= 0)//jsem na Linuxu
-				{
-					//uložení bufferu bufferRGBA opačně
-					for (int i = (bufferRGBA.length / 2) - 1,
-					  j = (bufferRGBA.length / 2) + (bufferRGBA.length % 2), tmp; i >= 0; i--, j++)//projdu od středu ke kraji
-					{
-						tmp = bufferRGBA[i];
-						bufferRGBA[i] = bufferRGBA[j];
-						bufferRGBA[j] = tmp;
-					}
-				}
-			} catch (SecurityException ex)//nemusí být povolen přístup k systémové promněné
-			{
-			}
 			//vytvoření výsledného obrázku
 			BufferedImage outputImage = new BufferedImage(widthGL, heightGL, BufferedImage.TYPE_INT_RGB);
 			outputImage.setRGB(0, 0, widthGL, heightGL, bufferRGBA, 0, widthGL);
+
+			//pokud je obrázek scény vertikálně otočený
+			if (outputImage.getRGB(0, 0) == pixel)
+			{
+				AffineTransform tx = AffineTransform.getScaleInstance(1, -1);
+				tx.translate(0, -outputImage.getHeight());
+				AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
+				outputImage = op.filter(outputImage, null);
+			}
+
 			sceneImage = outputImage;
 			this.notifyAll();//probuzení vlákna čekajícího na vygenerovaný obrázek
 			threadWaitingForImage = null;
